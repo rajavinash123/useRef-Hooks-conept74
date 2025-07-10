@@ -1,1 +1,62 @@
+/ stop watch project using useRef
+
+//App.jsx
+
+import { useRef, useState } from "react";
+import "./App.css";
+
+function App() {
+  const [time, setTime] = useState(0);
+  const timerRef = useRef(null); 
+
+  function handlerStart() {
+    // prevent multiple intervals
+    if (timerRef.current !== null) return;
+
+    timerRef.current = setInterval(() => {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
+  }
+
+  function handlerStop() {
+    clearInterval(timerRef.current);
+    timerRef.current = null;
+  }
+
+  function handlerReset() {
+    handlerStop(); 
+    setTime(0);
+  }
+
+  return (
+    <div className="App">
+      <h1>Stopwatch: {time} seconds</h1>
+      <button onClick={handlerStart}>Start</button>
+      <br />
+      <br />
+      <button onClick={handlerStop}>Stop</button>
+      <br />
+      <br />
+      <button onClick={handlerReset}>Reset</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+//main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
 
